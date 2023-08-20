@@ -1,9 +1,9 @@
-import { Countries } from "./Component/Countries"
+import { Outlet } from "react-router-dom"
 function App() {
   return (
     <>
       <section className='main-section'> 
-       <Countries/>
+       <Outlet/>
       </section>
     </>
   )

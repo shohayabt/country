@@ -7,21 +7,37 @@ const CardContainer = styled.section`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 40px;
+`;
+export const Loading = styled.small`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
 `
-
 
 export const Countries = () => {
     const [data, setData]= useState([])
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch("https://restcountries.com/v3.1/all")
-          .then((res) => res.json())
-          .then((data) => setData(data));
+      const loadData = async () => {
+        await fetch("https://restcountries.com/v3.1/all")
+        .then(res => res.json())
+        .then(async (data) => {
+          await setData(data)
+          setLoading(false)
+        });
+      }
+      loadData()
       }, []);
-
+      if(isLoading){
+        return <Loading><p>Loading...</p></Loading>
+      }
   return (
     <CardContainer>
-    {data.map(c => <Country country={c} key={c.name}/>)}
+    {data.map(c => <Country country={c}/>)}
     </CardContainer>
   )
 }
